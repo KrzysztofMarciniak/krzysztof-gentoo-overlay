@@ -65,3 +65,8 @@ The overlay is installed at:
 ```text
 /var/db/repos/krzysztof
 ```
+
+## Manifest Creation 
+```bash
+sudo ebuild app-editors/kilo/kilo-0.0.0.ebuild manifest
+```
