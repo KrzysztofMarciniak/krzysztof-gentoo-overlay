@@ -6,13 +6,13 @@ SRC_URI="https://github.com/oppiliappan/curie/releases/download/v1.0/curie-v1.0.
 
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 ~arm64 ~x86"
 RESTRICT="mirror"
 
-S="${WORKDIR}/curie-v1.0"
+S="${WORKDIR}"
 
 src_install() {
-	insinto /usr/share/fonts/curie
-	doins -r "${S}"/regular "${S}"/bold "${S}"/italic
+	insinto /usr/share/fonts/curie	
+	doins "${S}/"*.otb
 }
 
