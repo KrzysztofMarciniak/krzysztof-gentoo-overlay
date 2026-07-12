@@ -10,6 +10,10 @@ KEYWORDS="~amd64 ~x86"
 
 EGIT_REPO_URI="https://github.com/KrzysztofMarciniak/minimal-window-manager.git"
 
+DEPEND="x11-libs/libX11"
+RDEPEND="${DEPEND}"
+
+
 src_compile() {
 	emake
 }
