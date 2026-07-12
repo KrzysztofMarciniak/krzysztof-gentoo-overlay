@@ -16,7 +16,10 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 BDEPEND="
-	sys-devel/make
+	|| (
+		dev-build/make
+		dev-build/bmake
+	)
 "
 
 S="${WORKDIR}/OpenVi-${PV}"
@@ -27,4 +30,8 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" PREFIX="/usr" install
+}
+
+src_uninstall() {
+	emake DESTDIR="${D}" PREFIX="/usr" uninstall
 }
