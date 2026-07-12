@@ -4,7 +4,7 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 DESCRIPTION="mwm (minimal-window-manager)"
 HOMEPAGE="https://github.com/KrzysztofMarciniak/minimal-window-manager"
-LICENSE="all-rights-reserved"
+LICENSE="GPL"
 
 SRC_URI="https://github.com/KrzysztofMarciniak/minimal-window-manager/archive/refs/heads/master.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/${P}"
