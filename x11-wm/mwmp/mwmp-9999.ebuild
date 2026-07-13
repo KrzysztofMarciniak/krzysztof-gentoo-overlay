@@ -20,6 +20,6 @@ src_compile() {
 
 src_install() {
 	exeinto /usr/local/bin
-	doexe mwm
+	doexe mwmp
 }
 
