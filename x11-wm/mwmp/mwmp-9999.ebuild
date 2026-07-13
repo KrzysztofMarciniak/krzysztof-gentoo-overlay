@@ -13,13 +13,16 @@ EGIT_REPO_URI="https://github.com/KrzysztofMarciniak/minimal-window-manager-plus
 DEPEND="x11-libs/libX11"
 RDEPEND="${DEPEND}"
 
-
 src_compile() {
-	emake
+        emake CFLAGS="${CFLAGS} -DSTATUS_BAR_SCRIPT=\\\"/usr/share/mwmp/status_bar_script.sh\\\""
 }
 
 src_install() {
-	exeinto /usr/local/bin
-	doexe mwmp
-}
+        emake DESTDIR="${D}" PREFIX="/usr" install
 
+        insinto /usr/share/mwmp
+        doins status_bar_script.sh
+
+        exeinto /usr/share/mwmp
+        doexe audio.sh
+}
