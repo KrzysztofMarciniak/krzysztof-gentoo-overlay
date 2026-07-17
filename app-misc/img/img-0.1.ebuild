@@ -19,34 +19,11 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	default
-
-	cat > config.mk <<-EOF || die
-	CC = ${CHOST}-gcc
-	CFLAGS = ${CFLAGS}
-	LDFLAGS = ${LDFLAGS}
-
-	WITH_PNG = ${PV}
-	WITH_JPEG = ${PV}
-	WITH_WEBP = ${PV}
-	EOF
-
-	if ! use png; then
-		sed -i 's/WITH_PNG = .*/WITH_PNG = 0/' config.mk || die
-	fi
-
-	if ! use jpeg; then
-		sed -i 's/WITH_JPEG = .*/WITH_JPEG = 0/' config.mk || die
-	fi
-
-	if ! use webp; then
-		sed -i 's/WITH_WEBP = .*/WITH_WEBP = 0/' config.mk || die
-	fi
-}
-
 src_compile() {
-	emake
+	emake \
+		WITH_PNG=$(usex png 1 0) \
+		WITH_JPEG=$(usex jpeg 1 0) \
+		WITH_WEBP=$(usex webp 1 0)
 }
 
 src_install() {
