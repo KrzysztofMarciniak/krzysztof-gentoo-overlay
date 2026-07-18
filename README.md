@@ -55,7 +55,7 @@ sudo emerge -avq <package-name>
 ## Manual sync
 
 ```bash
-sudo emaint sync -r krzysztof
+sudo emaint sync --repo krzysztof
 ```
 
 ## Repository location
@@ -66,7 +66,7 @@ The overlay is installed at:
 /var/db/repos/krzysztof
 ```
 
-## Manifest Creation 
+## Manifest Creation and testing
 ```bash
-sudo ebuild app-editors/kilo/kilo-0.0.0.ebuild manifest
+sudo ebuild example-0.0.0.ebuild manifest clean compile
 ```
