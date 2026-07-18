@@ -8,7 +8,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 
-IUSE="jpeg png webp"
+IUSE="+jpeg +png webp"
 
 DEPEND="
 	x11-libs/libX11
