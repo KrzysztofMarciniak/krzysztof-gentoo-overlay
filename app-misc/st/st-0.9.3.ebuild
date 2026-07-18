@@ -28,7 +28,7 @@ KEYWORDS="~amd64 ~x86 ~arm64"
 # ---------------------------------------------------------------------------
 IUSE="
 	+curie
-	st_patch_alpha
+	+st_patch_alpha
 	st_patch_alpha_focus_highlight
 	st_patch_alpha_gradient
 	st_patch_anygeometry
