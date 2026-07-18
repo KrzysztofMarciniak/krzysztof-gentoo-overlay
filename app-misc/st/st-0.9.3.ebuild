@@ -12,11 +12,11 @@ HOMEPAGE="https://github.com/bakkeby/st-flexipatch https://st.suckless.org/"
 # bumping - check https://github.com/bakkeby/st-flexipatch/commits/master
 COMMIT="688f70a"
 SRC_URI="https://github.com/bakkeby/st-flexipatch/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
-S="${WORKDIR}/${PN}-${COMMIT}"
+S="${WORKDIR}/${P}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 ~x86 ~arm64"
+KEYWORDS="~amd64 ~x86 ~arm64"
 
 # ---------------------------------------------------------------------------
 # curie is not an upstream flexipatch toggle - it's a local addition that
@@ -223,6 +223,22 @@ _ST_PATCH_MAP=(
 	"st_patch_xresources_reload:XRESOURCES_RELOAD_PATCH"
 	"st_patch_xresources_xdefaults:XRESOURCES_XDEFAULTS_PATCH"
 )
+
+src_unpack() {
+	default
+
+	# GitHub commit-archive tarballs name their top-level directory
+	# "<repo>-<sha>" (here "st-flexipatch-${COMMIT}"), which never matches
+	# our S. Rather than hardcoding that name (and re-breaking if GitHub's
+	# scheme, the ref type, or the distfile ever differs), just rename
+	# whatever single directory got unpacked to what S expects.
+	local unpacked
+	unpacked=$(find "${WORKDIR}" -mindepth 1 -maxdepth 1 -type d)
+	if [[ $(wc -l <<< "${unpacked}") -ne 1 ]]; then
+		die "expected exactly one top-level directory in ${WORKDIR}, found: ${unpacked}"
+	fi
+	[[ "${unpacked}" == "${S}" ]] || mv "${unpacked}" "${S}" || die "failed to normalize source dir"
+}
 
 src_prepare() {
 	default
