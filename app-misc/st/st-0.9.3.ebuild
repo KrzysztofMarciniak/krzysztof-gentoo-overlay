@@ -8,10 +8,7 @@ inherit toolchain-funcs flag-o-matic
 DESCRIPTION="suckless st terminal, flexipatch build with preprocessor-selectable patches"
 HOMEPAGE="https://github.com/bakkeby/st-flexipatch https://st.suckless.org/"
 
-# Pin to a specific commit for reproducibility. Update COMMIT (and PV) when
-# bumping - check https://github.com/bakkeby/st-flexipatch/commits/master
-COMMIT="688f70a"
-SRC_URI="https://github.com/bakkeby/st-flexipatch/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/KrzysztofMarciniak/st-flexipatch/archive/refs/tags/0.9.3.tar.gz"
 S="${WORKDIR}/${P}"
 
 LICENSE="MIT"
@@ -38,7 +35,7 @@ IUSE="
 	st_patch_anysize_simple
 	st_patch_background_image
 	st_patch_background_image_reload
-	+st_patch_blinking_cursor
+	st_patch_blinking_cursor
 	st_patch_bold_is_not_bright
 	+st_patch_boxdraw
 	+st_patch_clipboard
@@ -244,7 +241,9 @@ src_prepare() {
 	default
 
 	if use curie; then
-		eapply "${FILESDIR}/st-0.9.3-default-font-curie.patch"
+		sed -i -E 's/^(static char \*font = )".*"(;)/\1"curie:pixelsize=12:antialias=true:autohint=true"\2/' \
+			config.def.h || die "failed to set curie as default font"
+		grep -q '"curie:' config.def.h || die "curie font substitution did not take effect"
 	fi
 
 	local pair flag macro state
@@ -281,7 +280,7 @@ src_configure() {
 }
 
 src_compile() {
-	emake CC="$(tc-getCC)" PKG_CONFIG="$(tc-getPKG_CONFIG)" STCFLAGS="${CFLAGS} ${CPPFLAGS}" STLDFLAGS="${LDFLAGS}"
+	emake 
 }
 
 src_install() {
