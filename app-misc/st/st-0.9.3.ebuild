@@ -8,6 +8,7 @@ inherit toolchain-funcs flag-o-matic
 DESCRIPTION="suckless st terminal, flexipatch build with preprocessor-selectable patches"
 HOMEPAGE="https://github.com/bakkeby/st-flexipatch https://st.suckless.org/"
 
+#SRC_URI="https://github.com/KrzysztofMarciniak/st-flexipatch/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI="https://github.com/KrzysztofMarciniak/st-flexipatch/archive/refs/tags/0.9.3.tar.gz"
 S="${WORKDIR}/${P}"
 
@@ -284,13 +285,8 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" PREFIX="/usr" MANPREFIX="/usr/share/man" install
-	dodoc README FAQ TODO
 
-	# upstream's install target does not ship the .desktop file itself
-	[[ -f st.desktop ]] && domenu st.desktop
+	exeinto /usr/local/bin
+	doexe st
 
-	# st.info is terminfo *source*; compile and install it with tic so
-	# st-256color etc. are available system-wide.
-	tic -x -o "${D}/usr/share/terminfo" st.info || die "tic failed"
 }
