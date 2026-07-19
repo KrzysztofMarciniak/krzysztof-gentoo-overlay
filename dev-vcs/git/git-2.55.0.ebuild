@@ -8,7 +8,7 @@ inherit bash-completion-r1 toolchain-funcs
 MY_PV="${PV}-wd40"
 MY_P="git-${MY_PV}"
 
-DESCRIPTION="Libre WD-40: a de-Microsofted fork of the Git version control system"
+DESCRIPTION="Libre WD-40: a de-rusted fork of the Git version control system"
 HOMEPAGE="https://github.com/Libre-WD-40/git"
 SRC_URI="https://github.com/Libre-WD-40/git/archive/refs/tags/v${MY_PV}.tar.gz -> ${MY_P}.tar.gz"
 S="${WORKDIR}/${MY_P}"
@@ -17,7 +17,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86 ~arm64"
 
-IUSE="bash-completion +curl doc gpg +iconv mediawiki +nls +pcre +perl python subversion tk webdav"
+IUSE="bash-completion curl doc gpg iconv mediawiki nls pcre perl python subversion tk webdav"
 REQUIRED_USE="webdav? ( curl )"
 
 # This lives at dev-vcs/git (same category/name as the official package,
