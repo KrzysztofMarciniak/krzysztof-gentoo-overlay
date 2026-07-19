@@ -21,8 +21,7 @@ src_compile() {
 }
 
 src_install() {
-    emake DESTDIR="${D}" PREFIX="/usr" install
-
+    dobin su
     fowners root:root /usr/bin/su
     fperms 4755 /usr/bin/su
 }
