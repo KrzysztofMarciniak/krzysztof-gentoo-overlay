@@ -4,7 +4,7 @@ DESCRIPTION="su without pam."
 HOMEPAGE="https://github.com/KrzysztofMarciniak/su"
 SRC_URI="https://github.com/KrzysztofMarciniak/su/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="GPL"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 
