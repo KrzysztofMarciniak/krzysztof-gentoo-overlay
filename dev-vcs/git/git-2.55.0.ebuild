@@ -17,15 +17,16 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86 ~arm64"
 
-IUSE="bash-completion curl doc gpg +iconv mediawiki +nls +pcre +perl python subversion tk webdav"
+IUSE="bash-completion +curl doc gpg +iconv mediawiki +nls +pcre +perl python subversion tk webdav"
 REQUIRED_USE="webdav? ( curl )"
 
-# Same on-disk layout (/usr/bin/git, man pages, libexec helpers) as
-# dev-vcs/git since this is a source-level fork -- the two cannot coexist.
-# Keep gitwd40 the exclusive provider of "git" when installed.
+# This lives at dev-vcs/git (same category/name as the official package,
+# just from this overlay) so anything with a dependency on dev-vcs/git
+# -- including USE-conditional atoms like [curl] -- is satisfied directly
+# by Portage, with no blockers or package.provided needed. Set this
+# repository's priority/masking so it's the one Portage picks for that
+# atom.
 RDEPEND="
-	!dev-vcs/git
-	!app-misc/git
 	sys-libs/zlib
 	curl? (
 		net-misc/curl
@@ -50,16 +51,10 @@ BDEPEND="
 	doc? ( app-text/asciidoc app-text/xmlto )
 "
 
-pkg_pretend() {
-	if has_version dev-vcs/git; then
-		ewarn "dev-vcs/git is currently installed. app-misc/gitwd40 blocks it"
-		ewarn "(RDEPEND=\"!dev-vcs/git\"), so 'emerge' will refuse to merge"
-		ewarn "both at once and will prompt you to unmerge dev-vcs/git first."
-	fi
-}
-
 src_prepare() {
 	default
+	sed -i 's/"git version %s\\n", git_version_string/"git-wd40 version %s\\n", git_version_string/' \
+		help.c || die "failed to patch version string"
 	use nls || sed -i -e '/^ALL_LDFLAGS/s/$/ NO_GETTEXT=1/' config.mak.uname 2>/dev/null
 }
 
@@ -122,11 +117,11 @@ src_install() {
 	if use mediawiki; then
 		emake "${myopts[@]}" -C contrib/mw-to-git install
 	fi
+
+	dosym git /usr/bin/git-wd40
 }
 
 pkg_postinst() {
 	elog "This is the Libre WD-40 fork of git (${HOMEPAGE}),"
-	elog "installed as app-misc/gitwd40. It provides the same 'git' binary"
-	elog "as dev-vcs/git and is intentionally blocked against it -- only"
-	elog "one of the two may be installed at a time."
+	elog "replacing the official dev-vcs/git ebuild via this overlay."
 }
